@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -26,13 +26,28 @@
 
 .App-link {
   color: #61dafb;
+} */
+
+.Item {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 1px;
+  padding: 1%;
+  border: 1px solid black;
 }
 
-@keyframes App-logo-spin {
+.addBtn {
+  margin: 3% 5% 3% 5%;
+}
+.ItemName {
+  display: inline;
+  margin-left: 3%;
+}
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */

@@ -1,23 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import "./App.css";
+import axios from "axios";
+import { Button } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Modal from "./Modal";
+import AppNavBar from "./AppNavBar";
 function App() {
+  const [list, setList] = React.useState([]);
+
+  // { name: "milk", uid: uuidv4() },
+  //   { name: "eggs", uid: uuidv4() },
+  //   { name: "bread", uid: uuidv4() },
+
+  React.useEffect(() => {
+    axios.get("http://localhost:5000/items/").then((res) => setList(res.data));
+  }, []);
+
+  const [mod, setMod] = React.useState(false);
+
+  const closeMod = () => {
+    setMod(false);
+  };
+
+  const addNewItem = (newItem) => {
+    setList([...list, newItem]);
+  };
+
+  const del = (id) => {
+    axios.delete(`http://localhost:5000/items/${id}`);
+    setList(list.filter((listItem) => listItem._id !== id));
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <AppNavBar />
+      <div>
+        <Button
+          color="secondary"
+          onClick={() => setMod(true)}
+          className="addBtn"
         >
-          Learn React
-        </a>
-      </header>
+          Add New Item
+        </Button>
+        <div>
+          {list.map((l) => {
+            return (
+              <div className="Item">
+                <Button color="danger" onClick={() => del(l._id)}>
+                  X
+                </Button>
+                <h5 className="ItemName">{l.name}</h5>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {mod ? <Modal closeMod={closeMod} addNewItem={addNewItem} /> : null}
     </div>
   );
 }
